@@ -1,33 +1,63 @@
 package TDA.scene.systems.battle;
 
+import TDA.entities.components.rendering.QuadComp;
 import TDA.entities.dinos.BattleHandler;
 import TDA.entities.dinos.Dino;
+import TDA.main.GameManager;
 import TDA.scene.SceneSystem;
-import TDA.scene.systems.battle.Team.*;
+import TDA.scene.systems.battle.Team.AlliedTeam;
+import TDA.scene.systems.battle.Team.EnemyTeam;
+import TDA.ui.TDAUi;
+import TDA.ui.states.BattleUiState;
+import woareXengine.mainEngine.Engine;
+import woareXengine.ui.constraints.ConstraintUtils;
+import woareXengine.util.Color;
+import woareXengine.util.Delay;
 import woareXengine.util.Id;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BattleContext extends SceneSystem {
     private static final Id ID = new Id();
-    private final Random random = new Random();
 
-    private final Team alliedTeam;
-    private final Team enemyTeam;
+    protected final Team alliedTeam;
+    protected final Team enemyTeam;
 
     private final List<Dino> dinosInAttackOrder = new ArrayList<>();
 
     private BattleState state = BattleState.INITIALIZING;
+    private BattleUiState battleUiState;
 
+    private int round = 0;
+    private int dinoIndex = 0;
+    private Delay timeUntilNextAbility = new Delay(0);
+    private Dino currentDino;
 
     public BattleContext(AlliedTeam alliedTeam, EnemyTeam enemyTeam) {
         super(ID);
         this.alliedTeam = alliedTeam;
         this.enemyTeam = enemyTeam;
+        BattleUtil.setContext(this);
+
+        for (Dino dino : orderedDinosList()) {
+            dino.setBattleHandler(new BattleHandler(dino));
+        }
+        initUi();
     }
+
+    Delay startDelay = new Delay(2);
 
     @Override
     protected void update() {
+        if (!startDelay.isOver()) return;
+        Engine.setGameSpeed(BattleConfigs.BATTLE_SPEED);
+
+        for (Dino dino : orderedDinosList()) {
+            dino.update();
+        }
+
         if (state == BattleState.INITIALIZING) {
             start();
             state = BattleState.IN_PROGRESS;
@@ -50,6 +80,7 @@ public class BattleContext extends SceneSystem {
         }
 
         if (battleEnded()) {
+            Engine.setGameSpeed(1);
             finish();
         }
     }
@@ -60,30 +91,49 @@ public class BattleContext extends SceneSystem {
     }
 
     @Override
-    protected void cleanUp() {
-
+    public void cleanUp() {
+        battleUiState.enableState(false);
+        TDAUi.get().gameUi.remove(battleUiState);
     }
 
     // =========================================== Battle Lifecycle Methods ============================================
     public void start() {
         for (Dino dino : orderedDinosList()) {
-            dino.startBattle(this);
+            dino.battleHandler().startBattle(this);
         }
     }
 
-    public void handleRound() {
-        for (Dino dino : orderedDinosList()) {
-            if (getEnemyTeam(dino).isDead()) return;        // If the enemy team is dead, the battle is over
-            if (!dino.battleHandler().isAlive()) continue;  // Used for dinos that have died during the round
+    private void newRound() {
+        round++;
+        timeUntilNextAbility.reset().stop();
+        dinoIndex = 0;
+    }
 
-            System.out.println((getAlliedTeam(dino).isAlliedTeam() ? "Allied" : "Enemy") + " dino " + dino + " is attacking");
-            dino.abilityHandler().onActive(this);
+    public void handleRound() {
+        if (!timeUntilNextAbility.isOver()) return;   // If the ability is not over, do nothing
+        if (dinoIndex >= dinosInAttackOrder.size()) {
+            newRound();
         }
+
+        if (currentDino != null) {
+            // Reset the color of the previous dino
+            currentDino.getComponent(QuadComp.class).quad.color = Color.WHITE;
+        }
+
+        currentDino = dinosInAttackOrder.get(dinoIndex);
+
+        timeUntilNextAbility = new Delay(currentDino.abilityHandler().onActive(this));
+        timeUntilNextAbility.start();
+        currentDino.getComponent(QuadComp.class).quad.color = Color.CYAN;
+
+        dinoIndex++;
     }
 
     public void finish() {
         for (Dino dino : orderedDinosList()) {
-            dino.finishBattle(this);
+            if (dino.battleHandler() == null) continue;
+            dino.battleHandler().finishBattle(this);
+            dino.setBattleHandler(null);
         }
     }
 
@@ -93,35 +143,42 @@ public class BattleContext extends SceneSystem {
         dinosInAttackOrder.clear();
         dinosInAttackOrder.addAll(Arrays.asList(alliedTeam.getDinos()));
         dinosInAttackOrder.addAll(Arrays.asList(enemyTeam.getDinos()));
-        dinosInAttackOrder.sort(Comparator.comparingDouble(Dino::getActualSpeed).reversed());
+        dinosInAttackOrder.sort((d1, d2) -> {
+            if (d1.getStats().speedStat.getActualValue() > d2.getStats().speedStat.getActualValue()) {
+                return -1;
+            } else if (d1.getStats().speedStat.getActualValue() < d2.getStats().speedStat.getActualValue()) {
+                return 1;
+            }
+            return 0;
+        });
         return dinosInAttackOrder;
     }
 
     public void handleDeath(Dino dino) {
-        getAlliedTeam(dino).removeDino(dino);
-    }
+        BattleUtil.getAlliedTeam(dino).removeDino(dino);    // Remove the dino from the team
+        dinosInAttackOrder.remove(dino);                    // Remove the dino from the attack order
 
-    /**
-     * Returns the team of which the dino is a part of
-     *
-     * @param dino the dino to check for
-     * @return the team of the given dino
-     */
-    public Team getAlliedTeam(Dino dino) {
-        return Arrays.asList(alliedTeam.getDinos()).contains(dino) ? alliedTeam : enemyTeam;
-    }
-
-    /**
-     * Returns the enemy team of the given dino
-     *
-     * @param dino the dino to check for
-     * @return the enemy team of the given dino
-     */
-    public Team getEnemyTeam(Dino dino) {
-        return Arrays.asList(alliedTeam.getDinos()).contains(dino) ? enemyTeam : alliedTeam;
+        GameManager.currentScene.renderer.removeQuad(dino.getComponent(QuadComp.class).quad);   // Remove the dino from the renderer
+        battleUiState.handleDeath(dino);                    // Remove the health bar from the UI
     }
 
     public boolean battleEnded() {
         return state == BattleState.VICTORY || state == BattleState.DEFEAT;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+
+    // =========================================== Ui ==================================================================
+    private void initUi() {
+        this.battleUiState = new BattleUiState(this);
+        this.battleUiState.enableState(true);
+        TDAUi.get().gameUi.add(battleUiState, ConstraintUtils.fill());
+    }
+
+    public void updateHealthBar(Dino dino) {
+        battleUiState.updateHealthBar(dino);
     }
 }

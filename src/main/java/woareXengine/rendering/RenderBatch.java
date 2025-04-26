@@ -123,6 +123,12 @@ public class RenderBatch implements Comparable<RenderBatch> {
         return boundTextures.size() < 8;
     }
 
+    public boolean hasTextureRoom(Texture texture) {
+        return texture == null  // Null texture is always allowed
+                       || boundTextures.size() < 8  // Max 8 textures
+                       || boundTextures.contains(texture); // Texture already bound
+    }
+
     /**
      * Get the number of vertices to be drawn
      *

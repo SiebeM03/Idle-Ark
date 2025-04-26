@@ -6,7 +6,7 @@ import woareXengine.ui.components.UiComponent;
 import woareXengine.ui.constraints.PixelConstraint;
 import woareXengine.ui.constraints.UiConstraints;
 
-import static TDA.ui.menus.inventory.itemList.InventorySlot.*;
+import static TDA.ui.menus.inventory.InventoryUiConfigs.*;
 
 public class InventoryItemList extends UiComponent {
     public static final int COLS = 6;
@@ -25,10 +25,10 @@ public class InventoryItemList extends UiComponent {
             int row = i / COLS;
 
             add(new InventorySlot(i), new UiConstraints(
-                    new PixelConstraint(column * (SLOT_WIDTH + SLOT_SPACING)),
-                    new PixelConstraint(row * (SLOT_HEIGHT + SLOT_SPACING), true),
-                    new PixelConstraint(SLOT_WIDTH),
-                    new PixelConstraint(SLOT_HEIGHT)
+                    new PixelConstraint(column * (ITEM_SIZE + ITEM_SPACING)),
+                    new PixelConstraint(row * (ITEM_SIZE + ITEM_SPACING), true),
+                    new PixelConstraint(ITEM_SIZE),
+                    new PixelConstraint(ITEM_SIZE)
             ));
         }
     }

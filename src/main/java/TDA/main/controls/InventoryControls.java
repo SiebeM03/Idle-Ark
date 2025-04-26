@@ -36,7 +36,9 @@ public class InventoryControls extends InputController {
         return isKeyboardEnabled && keyboard.keyPressEvent(GLFW_KEY_ESCAPE);
     }
 
-    public boolean isClicked() {
-        return isMouseEnabled && mouse.isClickEvent(MouseButton.LEFT);
+    public boolean isClicked(MouseButton button) {
+        return isMouseEnabled && mouse.isClickEvent(button);
     }
+
+
 }

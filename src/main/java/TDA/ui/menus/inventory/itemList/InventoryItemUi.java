@@ -1,6 +1,7 @@
 package TDA.ui.menus.inventory.itemList;
 
 import TDA.entities.inventory.items.ItemStack;
+import woareXengine.io.userInputs.Input;
 import woareXengine.mainEngine.Engine;
 import woareXengine.ui.components.UiComponent;
 import woareXengine.ui.constraints.PixelConstraint;
@@ -43,10 +44,10 @@ public class InventoryItemUi extends UiComponent {
         }
 
         if (isMouseOver()) {
-            if (Engine.mouse().getScroll() > 0) {
+            if (Input.mouse().getScroll() > 0) {
                 getItemStack().amount++;
             }
-            if (Engine.mouse().getScroll() < 0) {
+            if (Input.mouse().getScroll() < 0) {
                 getItemStack().amount--;
             }
         }

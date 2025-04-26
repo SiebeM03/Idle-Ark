@@ -19,9 +19,11 @@
 ## Occurrence
 
 - Dinos **spawn randomly** across the map. They are **invisible** to the player until they come close to them.
-- Once a player comes close to a wild dinoStats they are granted the option to **either tame or kill** the wild dinoStats:
+- Once a player comes close to a wild dinoStats they are granted the option to **either tame or kill** the wild
+  dinoStats:
     - **Taming**: when a dinoStats is successfully tamed, it is added to your inventory/dinoStats list.
-    - **Killing**: you can select a few of your dinoStats to fight the wild dinoStats, your dinoStats then **battle the wild dinoStats**.
+    - **Killing**: you can select a few of your dinoStats to fight the wild dinoStats, your dinoStats then **battle the
+      wild dinoStats**.
       Dinos might die during this battle (not sure yet if they should actually disappear or not) so choose your team
       wisely.  
       Once the dinoStats is killed you can harvest it to **gain resources**
@@ -44,13 +46,15 @@
     - **Damage**: the damage dealt by the dinoStats
     - **Critical chance**: the chance an attack turns into a critical attack
     - **Critical damage**: the damage amplifier for critical attacks
-    - **Speed**: determines the **order of attack** in a battle, the dinoStats with the highest speed attacks first (not sure
+    - **Speed**: determines the **order of attack** in a battle, the dinoStats with the highest speed attacks first (not
+      sure
       if this stat should be able to get mutated, might scale too large)
 
 ## Obtaining
 
 - Dinos can be tamed with **certain equipment** (tranquilizer arrow with a crossbow or something completely different).
-- The dinoStats's stats will only become visible once it is tamed so you might still end up with a dinoStats that has awful stats.
+- The dinoStats's stats will only become visible once it is tamed so you might still end up with a dinoStats that has
+  awful stats.
 
 ## Usage
 
@@ -110,10 +114,12 @@ These **stats can be improved** in 2 ways:
 
 1. **Leveling**: a certain amount of XP levels can be put into any stat, XP is slowly gained over time or faster through
    battles.
-2. **Breed mutations**: when 2 dinoStats of the **same species breed**, an egg/baby will be spawned. This baby's stats will
+2. **Breed mutations**: when 2 dinoStats of the **same species breed**, an egg/baby will be spawned. This baby's stats
+   will
    be based on those of the parents. For every stat, it inherits the same amount of points from either parent. There is
    a small chance for the baby to have a **mutation on a random stat**. This mutation will slightly increase the points
-   of this stat. Then the player can breed the dinoStats with the mutated stat and try to get another mutation on the same
+   of this stat. Then the player can breed the dinoStats with the mutated stat and try to get another mutation on the
+   same
    stat to continuously improve it step by step.
 
 Breeding 2 dinoStats will cost both **time and resources**:
@@ -138,3 +144,47 @@ Breeding 2 dinoStats will cost both **time and resources**:
     - Not sure yet if there should be a cap to XP levels.
     - If the higher levels end up requiring large amounts of XP this might not be a problem, then the player can still
       use XP to strengthen their dinoStats slowly over time
+
+## Types
+
+### Tyrannosaurus Rex (DPS / Bruiser)
+
+- **Basic attack**: Bite - A powerful chomp dealing moderate damage
+- **Active ability**: Savage Roar - Increases damage by 30% for 3 rounds, decreases by 10% each round
+- **Passive ability**: Blood Thirst - Restores 10% of damage dealt as health
+- **Stats ability**: Apex Predator - Increased critical chance and damage
+
+### Triceratops (Tank / Support)
+
+- **Basic attack**: Horn Bash - Strikes the target with its horns
+- **Active ability**: Shield Charge - Rushes into an enemy, dealing damage and stunning them for 2 rounds
+- **Passive ability**: Guardian Stance - Reflects 20% of damage taken back to the attacker, with a 30% chance to deal
+  20% more damage
+- **Stats ability**: Thick Hide - Increased health and armor
+- **Utility ability**: Increases wood and thatch carrying capacity
+
+### Velociraptor (DPS / Assassin)
+
+- **Basic attack**: Claw Strike - A quick strike dealing low damage
+- **Active ability**: Pack Ambush - Leaps at the enemy with the lowest HP, dealing high single-target damage and
+  applying a bleed effect for 3 rounds
+- **Passive ability**: Pack Hunter - When launching an active ability, all allied Velociraptors attack a random enemy
+  that has a bleed effect dealing 50% of the damage
+- **Stats ability**: Agile Hunter - Increased speed and critical chance
+
+### Brachiosaurus (Support / Healer)
+
+- **Basic attack**: Tail Whip - Swings its tail and deals damage to 2 random enemies
+- **Active ability**: Herbivore's Blessing - Heals 3 random allies for 10% of their max health each round for 3 rounds
+- **Passive ability**: Soothing Presence - Every critical hit on an enemy heals a random ally for 5% of their max health
+- 
+- **Utility ability**: Fertile Lands - Increases berry and fiber harvesting and carrying capacity
+
+### Spinosaurus (Hybrid Tank-DPS)
+
+- **Basic attack**: Ripping Claw - A strong attack that slightly heals the Spinosaurus
+- **Active ability**: Frenzied Onslaught - Attack 2 random enemies, there is a 40% chance to apply 1 layer of Frenzy to
+  the enemy
+- **Passive ability**: Frenzy Slaughter - When the Spinosaurus is hit by a critical strike, deals 20% of the damage to
+  all enemies with at least one layer of Frenzy
+- **Stats ability**: Thick Scales - Increased armor  

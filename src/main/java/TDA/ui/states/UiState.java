@@ -7,8 +7,8 @@ public abstract class UiState extends UiComponent {
 
     public void enableState(boolean open) {
         isOpen = open;
-        show(open);
         toggleMouseAndKeyboard(open);
+        show(open);
     }
 
     protected abstract void toggleMouseAndKeyboard(boolean isOpening);

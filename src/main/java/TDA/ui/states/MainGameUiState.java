@@ -2,10 +2,11 @@ package TDA.ui.states;
 
 import TDA.entities.inventory.items.ItemStack;
 import TDA.entities.player.PlayerPrefab;
-import TDA.ui.hotbar.HotbarUi;
-import TDA.ui.menus.inventory.itemList.InventorySlot;
+import TDA.ui.menus.hotbar.HotbarUi;
 import TDA.ui.menus.newInventoryItemPopup.ItemPopupContainer;
 import woareXengine.ui.constraints.*;
+
+import static TDA.ui.menus.inventory.InventoryUiConfigs.*;
 
 public class MainGameUiState extends UiState {
 
@@ -24,8 +25,8 @@ public class MainGameUiState extends UiState {
         add(hotbarUi, new UiConstraints(
                 new CenterConstraint(),
                 new PixelConstraint(0),
-                new PixelConstraint((InventorySlot.SLOT_WIDTH + InventorySlot.SLOT_SPACING) * hotbarSize),
-                new PixelConstraint(InventorySlot.SLOT_HEIGHT + InventorySlot.SLOT_SPACING)
+                new PixelConstraint((ITEM_SIZE + ITEM_SPACING) * hotbarSize),
+                new PixelConstraint(ITEM_SIZE + ITEM_SPACING)
         ));
 
         add(newItemContainer, ConstraintUtils.fill());

@@ -1,4 +1,4 @@
-package TDA.ui.hotbar;
+package TDA.ui.menus.hotbar;
 
 import woareXengine.ui.components.UiComponent;
 import woareXengine.ui.constraints.ConstraintUtils;

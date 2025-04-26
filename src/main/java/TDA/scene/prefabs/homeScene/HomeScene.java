@@ -1,5 +1,8 @@
 package TDA.scene.prefabs.homeScene;
 
+import TDA.entities.dinos.types.giga.Giga;
+import TDA.entities.dinos.types.rex.Rex;
+import TDA.entities.flag.Flag;
 import TDA.entities.inventory.items.ItemStack;
 import TDA.entities.player.PlayerPrefab;
 import TDA.entities.resources.items.types.StoneItem;
@@ -12,6 +15,7 @@ import TDA.main.world.World;
 import TDA.rendering.TDARenderEngine.renderSystem.TDARenderSystem;
 import TDA.scene.Scene;
 import TDA.scene.systems.InventoryManager;
+import TDA.scene.systems.InventoryManagerOld;
 import woareXengine.util.Logger;
 
 public class HomeScene extends Scene {
@@ -35,6 +39,9 @@ public class HomeScene extends Scene {
 
         addEntity(BarrelStorage.create(1000, 100));
 
+        addEntity(Flag.create(200, 200, new Rex().withStats(100, 100, 100), null, null, null, null));
+        addEntity(Flag.create(800, 100, new Rex().withStats(30, 20, 10), new Giga().withStats(400, 20, 30), null, null, null));
+
         world = new World();
         world.init();
 
@@ -43,6 +50,7 @@ public class HomeScene extends Scene {
 
     @Override
     protected void addSystems() {
+        addSystem(new InventoryManagerOld());
         addSystem(new InventoryManager());
 
         Logger.success("Created systems for Home Scene");

@@ -1,8 +1,7 @@
 package woareXengine.mainEngine;
 
 import woareXengine.io.Timer;
-import woareXengine.io.userInputs.Keyboard;
-import woareXengine.io.userInputs.Mouse;
+import woareXengine.io.userInputs.Input;
 import woareXengine.io.window.Window;
 import woareXengine.ui.main.Ui;
 import woareXengine.util.Logger;
@@ -12,14 +11,12 @@ import static org.lwjgl.opengl.GL.createCapabilities;
 public class EngineCreator {
 
     private Window window;
-    private Mouse mouse;
-    private Keyboard keyboard;
     private Timer timer;
 
     protected Engine init(EngineConfigs configs) {
         initEssentialSystems(configs);
         initEngineSystems(configs);
-        return new Engine(configs, window, mouse, keyboard, timer);
+        return new Engine(configs, window, timer);
     }
 
     /**
@@ -31,9 +28,8 @@ public class EngineCreator {
         this.window = setUpWindow(configs);
         createCapabilities();
         this.timer = new Timer();
-        this.keyboard = new Keyboard(window.getId());
-        this.mouse = new Mouse(window);
-        Ui.init(window, mouse, keyboard);
+        Input.init(window);
+        Ui.init(window);
     }
 
     /**

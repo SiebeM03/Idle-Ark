@@ -1,5 +1,7 @@
 package woareXengine.io.userInputs;
 
+import woareXengine.io.window.Window;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,9 +21,9 @@ public class Keyboard {
     /** The set of characters that have been typed this frame. */
     private final List<Integer> charsThisFrame = new ArrayList<>();
 
-    public Keyboard(long windowId) {
-        addKeyListener(windowId);
-        addTextListener(windowId);
+    public Keyboard(Window window) {
+        addKeyListener(window.getId());
+        addTextListener(window.getId());
     }
 
     public void update() {

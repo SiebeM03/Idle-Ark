@@ -1,5 +1,6 @@
 package woareXengine.ui.components;
 
+import woareXengine.io.userInputs.Input;
 import woareXengine.io.userInputs.Mouse;
 import woareXengine.io.userInputs.MouseButton;
 import woareXengine.ui.main.Ui;
@@ -20,7 +21,7 @@ public abstract class ClickableUi extends UiComponent {
     }
 
     private void checkClicks() {
-        Mouse mouse = Ui.mouse;
+        Mouse mouse = Input.mouse();
 
         checkMouseButton(MouseButton.LEFT, mouse);
         checkMouseButton(MouseButton.MIDDLE, mouse);

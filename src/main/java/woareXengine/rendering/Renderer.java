@@ -5,6 +5,7 @@ import woareXengine.openglWrapper.framebuffer.Framebuffer;
 import woareXengine.openglWrapper.shaders.Shader;
 import woareXengine.openglWrapper.textures.Texture;
 import woareXengine.rendering.renderData.RenderObject;
+import woareXengine.rendering.uiRenderer.UiRenderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,8 +15,7 @@ import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
 import static org.lwjgl.opengl.GL11.glDrawElements;
 
 public abstract class Renderer<T extends RenderObject> {
-    protected final int MAX_BATCH_SIZE = 500;
-    protected double start, end;
+    protected final int MAX_BATCH_SIZE = 2000;
 
     protected List<RenderBatch> batches;
     public List<T> data;
@@ -71,11 +71,11 @@ public abstract class Renderer<T extends RenderObject> {
 
     protected RenderBatch getAvailableBatch(Texture texture, int zIndex) {
         for (RenderBatch batch : batches) {
-            if (batch.hasVertexRoom() && batch.zIndex() == zIndex) {
-                if (texture == null || batch.hasTextureRoom()) {
-                    return batch;
-                }
-            }
+            if (!batch.hasVertexRoom()) continue;                       // Check if batch has room for more vertices
+            if (texture != null && !batch.hasTextureRoom()) continue;   // Check if batch has room for more textures (if texture is not null)
+            if (batch.zIndex() != zIndex) continue;                     // Check if batch is the right zIndex
+
+            return batch;
         }
 
         RenderBatch batch = createBatch(zIndex);

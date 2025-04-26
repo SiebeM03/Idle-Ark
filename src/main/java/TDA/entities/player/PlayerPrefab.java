@@ -1,6 +1,7 @@
 package TDA.entities.player;
 
 import TDA.entities.components.interactions.ColliderComp;
+import TDA.entities.dinoInventory.DinoInventoryComp;
 import TDA.entities.main.Entity;
 import TDA.entities.components.rendering.QuadComp;
 import TDA.entities.inventory.InventoryComp;
@@ -17,7 +18,8 @@ import woareXengine.util.Transform;
 public class PlayerPrefab {
     private static Entity player = null;
     private static HotbarComp hotbar = new HotbarComp();
-    private static InventoryComp inventory = new InventoryComp(48);
+    private static InventoryComp inventory = new InventoryComp(30);
+    private static DinoInventoryComp dinoInventory = new DinoInventoryComp(10);
 
     public static Entity getPlayer() {
         if (player == null) {

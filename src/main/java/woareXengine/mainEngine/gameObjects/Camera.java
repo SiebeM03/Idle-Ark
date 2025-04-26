@@ -4,6 +4,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import woareXengine.io.userInputs.Input;
 import woareXengine.mainEngine.Engine;
 import woareXengine.util.Transform;
 
@@ -80,12 +81,12 @@ public abstract class Camera {
     }
 
     public float getMouseWorldX() {
-        float currentX = Engine.mouse().getX() * 2.0f - 1.0f;
+        float currentX = Input.mouse().getX() * 2.0f - 1.0f;
         return transformScreenToWorld(currentX, 0).x;
     }
 
     public float getMouseWorldY() {
-        float currentY = Engine.mouse().getY() * 2.0f - 1.0f;
+        float currentY = Input.mouse().getY() * 2.0f - 1.0f;
         return transformScreenToWorld(0, currentY).y;
     }
 

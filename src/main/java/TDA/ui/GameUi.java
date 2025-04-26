@@ -1,7 +1,7 @@
 package TDA.ui;
 
-import TDA.entities.storage.StorageComp;
 import TDA.main.GameManager;
+import TDA.ui.menus.TestUi;
 import TDA.ui.states.InventoryUiState;
 import TDA.ui.states.MainGameUiState;
 import TDA.ui.states.PauseUiState;
@@ -12,6 +12,7 @@ import woareXengine.ui.constraints.PixelConstraint;
 import woareXengine.ui.constraints.UiConstraints;
 import woareXengine.ui.text.basics.Text;
 import woareXengine.util.Assets;
+import woareXengine.util.Delay;
 
 public class GameUi extends UiComponent {
 
@@ -20,12 +21,13 @@ public class GameUi extends UiComponent {
     public final PauseUiState pause = new PauseUiState();
 
     private Text fps = Assets.getDefaultFont().createText("000", 0.8f);
-    private double timeSinceFpsUpdate = 0;
-    private double delayForFpsUpdate = 0.1f;
+    private Delay fpsDelay = new Delay(0.1f);
 
     @Override
     protected void init() {
         Assets.getDefaultFont();
+
+//        add(new TestUi(), ConstraintUtils.fill());
 
         add(mainGame, ConstraintUtils.fill());
         add(inventory, ConstraintUtils.fill());
@@ -41,10 +43,9 @@ public class GameUi extends UiComponent {
 
     @Override
     protected void updateSelf() {
-        timeSinceFpsUpdate += Engine.getDelta();
-        if (timeSinceFpsUpdate >= delayForFpsUpdate) {
+        if (fpsDelay.isOver()) {
             fps.textString = (int) Engine.getFps() + "";
-            timeSinceFpsUpdate = 0;
+            fpsDelay.reset().start();
         }
     }
 
@@ -59,13 +60,5 @@ public class GameUi extends UiComponent {
         if (GameManager.gameControls.inventoryControls.shouldCloseInventory()) {
             inventory.enableState(false);
         }
-    }
-
-
-    public void showStorage(boolean show, StorageComp storage) {
-//        playerInventoryUi.storageInventoryItemList = new InventoryItemList(storage.getInventory());
-//        InventoryManager.getFromCurrentScene().setExternalInventory(storage.getInventory());
-//
-//        showInventory(show);
     }
 }

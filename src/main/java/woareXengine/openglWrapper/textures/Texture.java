@@ -52,7 +52,7 @@ public class Texture {
 
         setClampedEdges(false);
 
-        setFilters(GL_LINEAR, GL_LINEAR);
+        setFilters(GL_NEAREST, GL_NEAREST);
 
         IntBuffer width = BufferUtils.createIntBuffer(1);
         IntBuffer height = BufferUtils.createIntBuffer(1);

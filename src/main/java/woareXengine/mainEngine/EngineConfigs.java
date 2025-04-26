@@ -15,6 +15,8 @@ public class EngineConfigs {
     public boolean vsync = true;
     public boolean msaa = true;
 
+    public float gameSpeed = 1.0f;
+
 
     public static EngineConfigs getDefaultConfigs() {
         return new EngineConfigs();

@@ -19,12 +19,9 @@ public class Ui {
     public static int displayWidthPixels;
     public static int displayHeightPixels;
 
-    public static Mouse mouse;
-    public static Keyboard keyboard;
-
     private static boolean mouseInteractionEnabled = true;
 
-    public static void init(Window window, Mouse mouse, Keyboard keyboard) {
+    public static void init(Window window) {
         fontRenderer = new FontRenderer();
         Ui.uiRenderer = new UiRenderer();
 
@@ -33,8 +30,6 @@ public class Ui {
 
         Ui.displayWidthPixels = window.getPixelWidth();
         Ui.displayHeightPixels = window.getPixelHeight();
-        Ui.mouse = mouse;
-        Ui.keyboard = keyboard;
         window.addSizeChangeListener(Ui::notifyScreenSizeChange);
         notifyScreenSizeChange(window.getPixelWidth(), window.getPixelHeight());
     }

@@ -42,10 +42,13 @@ public class AbilityHandler {
     /**
      * Called when the dino is ready to launch its active ability (e.g. when the dino's turn comes up in the battle)
      */
-    public void onActive(BattleContext context) {
+    public float onActive(BattleContext context) {
+        float duration = 0;
         for (OnActiveAbility ability : getAbilities(OnActiveAbility.class)) {
             ability.activate(dino, context);
+            duration = Math.max(duration, ability.getDuration());
         }
+        return duration;
     }
 
     /**

@@ -1,6 +1,7 @@
 package woareXengine.ui.components;
 
 import org.joml.Vector2f;
+import woareXengine.io.userInputs.Input;
 import woareXengine.io.userInputs.Mouse;
 import woareXengine.mainEngine.Engine;
 import woareXengine.rendering.renderData.RenderObject;
@@ -29,7 +30,6 @@ public abstract class UiComponent extends RenderObject {
     protected UiConstraints constraints;
 
     private int level = 0;
-    private int padding = 0;
 
     public void add(UiComponent component, UiConstraints constraints) {
         component.parent = this;
@@ -118,7 +118,7 @@ public abstract class UiComponent extends RenderObject {
 
     public boolean isMouseOver() {
         if (!Ui.isMouseEnabled() || !isShown()) return false;
-        Mouse mouse = Ui.mouse;
+        Mouse mouse = Input.mouse();
 
         return getAbsoluteTransform().contains(mouse.getScreenX(), mouse.getScreenY());
     }

@@ -8,6 +8,8 @@ import TDA.entities.components.interactions.ClickableComp;
 import TDA.main.GameManager;
 import TDA.rendering.SceneRenderSystem;
 import TDA.rendering.TDARenderEngine.renderSystem.TDARenderSystem;
+import TDA.ui.TDAUi;
+import woareXengine.io.userInputs.Input;
 import woareXengine.mainEngine.Engine;
 import woareXengine.mainEngine.gameObjects.Camera;
 import woareXengine.util.Id;
@@ -93,8 +95,8 @@ public abstract class Scene {
 
     public Entity getClickableEntityAtMouse() {
         int pixelId = GameManager.currentScene.renderer.getPickingRenderer().readPixel(
-                Engine.mouse().getScreenX(),
-                Engine.mouse().getScreenY()
+                Input.mouse().getScreenX(),
+                Input.mouse().getScreenY()
         );
         return getEntitiesWithComponents(ClickableComp.class)
                        .stream()
@@ -104,11 +106,15 @@ public abstract class Scene {
     }
 
     public void fill() {
-        createEntities();
         addSystems();
+        createEntities();
     }
 
     protected abstract void createEntities();
 
     protected abstract void addSystems();
+
+    public void close() {
+
+    }
 }

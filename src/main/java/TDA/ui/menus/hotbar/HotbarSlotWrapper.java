@@ -1,4 +1,4 @@
-package TDA.ui.hotbar;
+package TDA.ui.menus.hotbar;
 
 import TDA.entities.player.PlayerPrefab;
 import TDA.entities.inventory.items.ItemStack;
@@ -6,6 +6,8 @@ import TDA.ui.menus.inventory.itemList.InventorySlot;
 import woareXengine.ui.components.UiComponent;
 import woareXengine.ui.constraints.PixelConstraint;
 import woareXengine.ui.constraints.UiConstraints;
+
+import static TDA.ui.menus.inventory.InventoryUiConfigs.*;
 
 public class HotbarSlotWrapper extends UiComponent {
     private final ItemStack[] hotbarItems;
@@ -18,10 +20,10 @@ public class HotbarSlotWrapper extends UiComponent {
     protected void init() {
         for (int i = 0; i < hotbarItems.length; i++) {
             add(new InventorySlot(i), new UiConstraints(
-                    new PixelConstraint(i * (InventorySlot.SLOT_WIDTH + InventorySlot.SLOT_SPACING)),
+                    new PixelConstraint(i * (ITEM_SIZE + ITEM_SPACING)),
                     new PixelConstraint(0),
-                    new PixelConstraint(InventorySlot.SLOT_WIDTH),
-                    new PixelConstraint(InventorySlot.SLOT_HEIGHT)
+                    new PixelConstraint(ITEM_SIZE),
+                    new PixelConstraint(ITEM_SIZE)
             ));
         }
     }

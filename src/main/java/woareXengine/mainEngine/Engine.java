@@ -1,6 +1,7 @@
 package woareXengine.mainEngine;
 
 import woareXengine.io.Timer;
+import woareXengine.io.userInputs.Input;
 import woareXengine.io.userInputs.Keyboard;
 import woareXengine.io.userInputs.Mouse;
 import woareXengine.io.window.Window;
@@ -16,8 +17,6 @@ public class Engine {
     private final EngineConfigs configs;
 
     private final Window window;
-    private final Mouse mouse;
-    private final Keyboard keyboard;
 
     private final Timer timer;
     private boolean closeFlag = false;
@@ -26,11 +25,9 @@ public class Engine {
 
     public boolean debugging = false;
 
-    public Engine(EngineConfigs configs, Window window, Mouse mouse, Keyboard keyboard, Timer timer) {
+    public Engine(EngineConfigs configs, Window window, Timer timer) {
         this.configs = configs;
         this.window = window;
-        this.mouse = mouse;
-        this.keyboard = keyboard;
         this.timer = timer;
         defaultFboId = glGenFramebuffers();
 
@@ -54,8 +51,7 @@ public class Engine {
     public void update() {
         Ui.update();
         timer.update();
-        keyboard.update();
-        mouse.update();
+        Input.update();
         window.update();
         glClearColor(configs.backgroundColor.getR(), configs.backgroundColor.getG(), configs.backgroundColor.getB(), configs.backgroundColor.getA());
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -89,22 +85,18 @@ public class Engine {
 
 
     public static float getDelta() {
-        return instance().timer.getDeltaTime();
+        return instance().timer.getDeltaTime() * instance().configs.gameSpeed;
+    }
+
+    public static void setGameSpeed(float speed) {
+        instance().configs.gameSpeed = speed;
     }
 
     public static float getFps() {
-        return 1 / getDelta();
+        return 1 / (getDelta() / instance().configs.gameSpeed);
     }
 
     public static Window window() {
         return instance().window;
-    }
-
-    public static Mouse mouse() {
-        return instance().mouse;
-    }
-
-    public static Keyboard keyboard() {
-        return instance().keyboard;
     }
 }

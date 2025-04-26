@@ -6,13 +6,11 @@ import woareXengine.util.Color;
 import woareXengine.util.Transform;
 
 public class UiBorderedBlock extends UiBlock {
-    protected final Color BORDER_COLOR = new Color("#002a47");
-    protected final Color FILL_COLOR = new Color("#01487a");
-    protected int BORDER_WIDTH = 2;
+    private Color BORDER_COLOR = new Color(1, 1, 1, 0);
+    private Color FILL_COLOR = new Color(1, 1, 1, 0);
+    private int BORDER_WIDTH = 2;
 
     private UiBlock contentBlock;
-
-    private Transform lastTransform;
 
     @Override
     protected void init() {
@@ -23,20 +21,21 @@ public class UiBorderedBlock extends UiBlock {
         add(contentBlock, ConstraintUtils.margin(BORDER_WIDTH));
     }
 
-    @Override
-    protected void updateSelf() {
-        if (!transform.equals(lastTransform)) {
-            setBorderWidth(BORDER_WIDTH);
-        }
-
-        lastTransform = transform.copy();
-    }
-
     public void setBorderWidth(int width) {
         contentBlock.getConstraints().getX().setPixelValue(width);
         contentBlock.getConstraints().getY().setPixelValue(width);
         contentBlock.getConstraints().getWidth().setPixelValue(width * 2);
         contentBlock.getConstraints().getHeight().setPixelValue(width * 2);
         contentBlock.getConstraints().apply();
+    }
+
+    public void setBorderColor(Color color) {
+        BORDER_COLOR = color;
+        this.color = color;
+    }
+
+    public void setFillColor(Color color) {
+        FILL_COLOR = color;
+        contentBlock.color = color;
     }
 }

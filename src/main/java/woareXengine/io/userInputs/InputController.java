@@ -1,6 +1,5 @@
 package woareXengine.io.userInputs;
 
-import woareXengine.mainEngine.Engine;
 import woareXengine.util.Logger;
 
 /**
@@ -14,8 +13,8 @@ public class InputController {
     protected boolean isKeyboardEnabled = true;
 
     public InputController() {
-        this.mouse = Engine.mouse();
-        this.keyboard = Engine.keyboard();
+        this.mouse = Input.mouse();
+        this.keyboard = Input.keyboard();
 
         if (mouse == null || keyboard == null) {
             Logger.error("InputController: Mouse or Keyboard is null");
